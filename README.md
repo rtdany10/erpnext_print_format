@@ -7,7 +7,8 @@ I’ll break down the process to make it easy for all the beginners.
 ERPNext uses Jinja templating for this purpose. I’m not going to give you a deep explanatory course on Jinja, but the basics that you’ll need for a neat, aesthetic template.
 
 When the client gives you their existing template, you should make a thorough observation of it.
-First off, we split the template into 3 parts: Above, Middle and Below.
+
+## First off, we split the template into 3 parts: Above, Middle and Below.
 1. Above: The above part includes all the static items in the page including the letter head, the customer details and the head of the table(if any).
 
 2. Middle: This part consists of recurring things in the template. Eg: the rows in the table.
@@ -16,7 +17,8 @@ First off, we split the template into 3 parts: Above, Middle and Below.
 
 Now that we have divided the template into three parts. It becomes fairly easier for us to do things and also makes the code look beautiful(you’ll understand how as you keep reading).
 We will now use macros for the above and bottom sections/parts. Macros are pieces of code defined by a name. And hence, you can call them just by that name whenever you need them(like functions).
-Here is how you define a macro:
+
+## Define a macro:
 ```
 {% macro name_of_macro() %}
 	<p>Hi</p>
@@ -35,7 +37,7 @@ Each time you call it, the code inside of it replaces it.
 	<p>Finish</p>			>		<p>Finish</p>
 ```
 
-Now, we recreate the the whole template in html with the help of bootstrap.
+## Recreate the the whole template in html with the help of bootstrap.
 Here is a basic example of HTML code with bootstrap:
 ```
 <div class="container-fluid">
@@ -56,7 +58,10 @@ In ERPNext, these variables are inside each doctypes. And to access them, we use
 To get the fieldname of a column, we can go to customise form and select the doctype we want to and search for the field and get its fieldname.
 Example code to fetch document name: ```{{ doc.name }}```
 
-Now that we know how to fetch values and that we have the template in HTML, we can actually split them.
+## Split to macros
+Now that we know how to fetch values and that we have the template in HTML, we can actually split the template into macros.
+
+### Above Section
 ```
 {% macro above_items() %}
 <div class="container-fluid" style="min-width: 100% !important; min-height: 210mm !important;">
@@ -105,6 +110,7 @@ Now that we know how to fetch values and that we have the template in HTML, we c
 ```
 Notice how the table is started in the above part, but not closed. It's because we assign the body of the table to the middle part/section and the footer to the below.
 
+### Below Section
 Once we create the above section, it is time for us to create the below section. We will move on to the middle section after the below part.
 ```
 {% macro below_items() %}
@@ -137,6 +143,7 @@ Once we create the above section, it is time for us to create the below section.
 Now, if we check the below part, we can see how the table we opened in the above section was beautifully closed. See how the intendation makes it easier to read the code!
 Now, if we just print the above and below sections, we will be able to see the template(without any rows in the table ofc!)
 
+### Middle Section
 Now comes the best part! The middle section, where all the fun is!
 Here, we don't define it as a seperate macro, rather, we just write it down(You're always free to write it as a macro and call as well!)
 ```
