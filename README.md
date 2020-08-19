@@ -35,8 +35,8 @@ Each time you call it, the code inside of it replaces it.
 	<p>Finish</p>			>		<p>Finish</p>
 ```
 
-First off, we recreate the the whole template in html with the help of bootstrap.
-Here is a basic example:
+Now, we recreate the the whole template in html with the help of bootstrap.
+Here is a basic example of HTML code with bootstrap:
 ```
 <div class="container-fluid">
 	<div class="row d-flex align-items-end justify-content-between" style="padding-top: 10px; font-size: 13px">
@@ -47,7 +47,46 @@ Here is a basic example:
     	</div>
 </div>
 ```
-Using **col-xs** is necessary as anything else will cause wkhtmltopdf to break and the the generated PDF will loose its alignment, although the print version will look fine. Intendation is also very important as if increases the readablity of the code and when working as a team, it gives a great advantage.
+Using **col-xs** is necessary as anything else will cause wkhtmltopdf to break and the the generated PDF will loose its alignment, although the print version will look fine. **Intendation** is also very important as if increases the readablity of the code and when working as a team, it gives a great advantage.
 
 Now that you have converted the basic template into html format, its time for us to use Jinja to fetch value into our format.
 The format for it is ```{{ name of variable to print }}```
+
+In ERPNext, these variables are inside each doctypes. And to access them, we use doc.name_of_field.
+To get the fieldname of a column, we can go to customise form and select the doctype we want to and search for the field and get its fieldname.
+Example code to fetch document name: ```{{ doc.name }}```
+
+Now that we know how to fetch values and that we have the template in HTML, we can actually split them.
+```{% macro above_items() %}
+<div class="container-fluid" style="min-width: 100% !important; min-height: 245mm !important;">
+    <div class="row d-flex align-items-end justify-content-end">
+        <div class="col-xs-4 text-left" style="margin-top: -15px">
+            <img alt="Logo" width=100% src="/files/nameoflogo.png">
+        </div>
+        <div class="col-xs-8 text-right">
+            <b>SALES ORDER</b>
+        </div>
+    </div>
+    
+    <div class="row d-flex align-items-end justify-content-between" style="padding-top: 10px; font-size: 13px">
+        <div class="col-xs-6">
+            <b>{{ doc.customer_name }}</b><br>
+            {{ doc.shipping_address }}
+        </div>
+        <div class="col-xs-6 text-right">
+            <span style="font-size: 13px">
+                <b>{{ doc.name }}</b><br>
+            </span>
+            {{ doc.transaction_date }}<br>
+            <b>Your PO Reference</b><br>
+            {{ doc.po_no }}
+        </div>
+    </div>
+    
+    <div class="row" style="padding-top: 10px; font-size: 13px">
+        <div class="col-xs-12">
+            Dear Sir/Madam,<br>
+            Thank you for placing the purchase order. We hearby confirm our acceptance as follows:
+        </div>
+    </div>
+{% endmacro %}```
