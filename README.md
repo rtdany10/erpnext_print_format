@@ -198,5 +198,7 @@ Once we break the page, we increase the number of pages required and call for th
 
 This loop continues until the last row after which a below_items() will be called which will end the last page.
 
+**Make sure to follow the format and place middle section at the bottom of the code!**
+
 And there you have, beautifully printed dynamic invoices and receipts!
 Happy coding and printing!
