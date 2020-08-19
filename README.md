@@ -90,7 +90,7 @@ Now that we know how to fetch values and that we have the template in HTML, we c
             Thank you for placing the purchase order. We hearby confirm our acceptance as follows:
         </div>
     </div>
-	<table class="table table-bordered text-wrap" style="overflow-x: hidden; table-layout: fixed; font-size:13px !important">
+	<table class="table table-bordered text-wrap" style="overflow-x: hidden; table-layout: fixed !important">
         <thead>
             <tr class="table-info" style="font-weight: bold;">
                 <td style="width:6%;">Sr</td>
@@ -136,3 +136,42 @@ Once we create the above section, it is time for us to create the below section.
 ```
 Now, if we check the below part, we can see how the table we opened in the above section was beautifully closed. See how the intendation makes it easier to read the code!
 Now, if we just print the above and below sections, we will be able to see the template(without any rows in the table ofc!)
+
+Now comes the best part! The middle section, where all the fun is!
+Here, we don't define it as a seperate macro, rather, we just write it down(You're always free to write it as a macro and call as well!)
+```
+{{ above_items() }}
+{% set pr = [1] %}
+{% set lines = [0] %}
+    {%- for row in doc.items -%}
+        {% if lines[-1] %} {% endif %} 
+        {% if lines.append( lines[-1] + 2 +((row.description|length / 38)|int)) %}{% endif %}
+        {% if (row.description|length % 38) > 0 %}
+            {% if lines[-1] %} {% endif %} 
+            {% if lines.append( lines[-1] + 1 ) %}{% endif %}
+        {% endif %}
+        {% if (lines[-1]/30) <= pr[-1] %}
+            <tr class="table-info">
+                <td>{{ row.idx }}</td>
+                <td>{{ row.item_name }}<br>{{ row.serial_no }}</td>
+                <td>{{ row.uom }}</td>
+                <td>{{ row.qty }}</td>
+                <td>{{ row.purchase_order }}</td>
+            </tr>
+        {% else %}
+            {{ below_items() }}
+            <div style="page-break-before: always;"></div>
+            {% if pr[-1] %} {% endif %} 
+            {% if pr.append( pr[-1] + 1 ) %}{% endif %}
+            {{ above_items() }}
+            <tr class="table-info">
+                <td>{{ row.idx }}</td>
+                <td>{{ row.item_name }}<br>{{ row.serial_no }}</td>
+                <td>{{ row.uom }}</td>
+                <td>{{ row.qty }}</td>
+                <td>{{ row.against_sales_order }}</td>
+            </tr>
+        {% endif %}
+    {%- endfor -%}
+{{ below_items() }}
+```
