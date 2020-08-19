@@ -201,4 +201,5 @@ This loop continues until the last row after which a below_items() will be calle
 **Make sure to follow the format and place middle section at the bottom of the code!**
 
 And there you have, beautifully printed dynamic invoices and receipts!
+
 Happy coding and printing!
