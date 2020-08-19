@@ -175,3 +175,18 @@ Here, we don't define it as a seperate macro, rather, we just write it down(You'
     {%- endfor -%}
 {{ below_items() }}
 ```
+
+This middle section first calls the above_items(). This places all the above items in our print.
+Then we define two lists in Jinja. One for the number of lines our table has, and another for number of pages required.
+
+I calculated the width length of my product description column and understood that it can hold upto 38 characters without breaking into a new line.
+
+Then we run a loop through the table and add 2(which is a fixed number because rows themselves takes up some space) plus length of the description divided by 38(after converting it to int). Then we check if there is float(decimal) value upon that division, and if any, we add 1 to it. And thus, we get the number of lines required by the rows in that table.
+
+Now, I did my experiments and found out that I can have no more than 30 lines in 1 page. So we have to break the page after every 30 lines.
+So we do a simple check before printing the row to the page if it will exceed the maximum number of lines allowed. We do that by dividing it by 30 and checking if it is less or equal to the number of pages required till now.
+
+If it is less or equal, we print the row. And if not, we call for the below items which will put the footer and other items specified in it. And then, we break the page.
+Once we break the page, we increase the number of pages required and call for the above items since we moved on to new page and print the current row there.
+
+This loop continues until the last row after which a below_items() will be called which will end the last page.
