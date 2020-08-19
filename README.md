@@ -190,3 +190,6 @@ If it is less or equal, we print the row. And if not, we call for the below item
 Once we break the page, we increase the number of pages required and call for the above items since we moved on to new page and print the current row there.
 
 This loop continues until the last row after which a below_items() will be called which will end the last page.
+
+And there you have, beautifully printed dynamic invoices and receipts!
+Happy coding and printing!
